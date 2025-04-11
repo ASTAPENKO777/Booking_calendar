@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Лісова Хатина-ЧАН - Бронювання</title>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="https://forest-hut.com/wp-content/uploads/logo-main-dark.png">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/uk.min.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="./script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <img src="https://forest-hut.com/wp-content/uploads/2018/08/logo-main.svg" alt="Лісова Хатина" class="logo">
+                <h1>Лісова Хатина-ЧАН</h1>
+            </div>
+            <div class="header-controls">
+                <div class="language-switcher">
+                    <button id="lang-uk" class="active">УКР</button>
+                    <button id="lang-en">ENG</button>
+                </div>
+                <button id="theme-toggle" class="theme-btn" aria-label="Toggle theme">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1-8.313-12.454z"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <div class="room-selector">
+            <button id="house-btn" class="active">Будинок</button>
+            <button id="room4-btn">Двомісний №4</button>
+            <button id="room3-btn">Двомісний №3</button>
+            <button id="room2-btn">Сімейний №2</button>
+            <button id="room1-btn">Сімейний №1</button>
+        </div>
+
+        <div id="calendar"></div>
+
+        <div class="booking-form-container">
+            <h2 id="form-title">Бронювання будинку</h2>
+            <form id="booking-form">
+                <div class="form-group">
+                    <label for="name">Ім'я</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Телефон</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="dates">Дата</label>
+                    <input type="text" id="dates" readonly>
+                </div>
+                <button type="submit" class="submit-btn">Забронювати</button>
+            </form>
+        </div>
+
+        <div id="success-message" class="hidden">
+            <h2>Бронювання успішне! 🎉</h2>
+            <div id="success-details"></div>
+            <button id="new-booking-btn">Нове бронювання</button>
+        </div>
+    </div>
+
+    <script>
+        Telegram.WebApp.expand();
+        Telegram.WebApp.enableClosingConfirmation();
+        
+        const tgUser = Telegram.WebApp.initDataUnsafe.user;
+        if (tgUser) {
+            document.getElementById('name').value = tgUser.first_name || '';
+            if (tgUser.last_name) {
+                document.getElementById('name').value += ' ' + tgUser.last_name;
+            }
+        }
+    </script>
+</body>
+</html>
